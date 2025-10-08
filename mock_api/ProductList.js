@@ -19,7 +19,7 @@ const App = () => {
 
     const getDataUsingSimpleGetCall = () => {
     axios
-        .get('https://68e0797a93207c4b4794886f.mockapi.io/api/v1/products/books')
+        .get('https://68e0797a93207c4b4794886f.mockapi.io/api/v1/products/products')
         .then(function (response) {
             setListItems(response.data);
         })
@@ -38,23 +38,39 @@ const App = () => {
         // FlatList Item
         <TouchableOpacity
           onPress={() => getItem(item)}
+          style={styles.container_vertical}
         >
-          <Text
-            style={styles.item}
-            >
-            {`Tên: ${item.name}`}
-          </Text>
-  
-          <Text
-            style={styles.item}
-            >
-            {`Giá thành: ${item.price}`}
-          </Text>
-  
           <Image 
-              source={{uri: item.avatar}}  
-              style={{width: 100, height: 100}} 
+            source={{uri: item.imgUrl}}  
+            style={{width: 100, height: 100}} 
           />
+
+          <View style={{...styles.item, flex: 1}}>
+            <Text
+            style={styles.item}
+            >
+            {`Name: ${item.value}`}
+          </Text>
+
+          <Text
+            style={styles.item}
+            >
+            {`Author: ${item.author}`}
+          </Text>
+
+          <Text
+            style={styles.item}
+            >
+            {`Price: ${item.price}`}
+          </Text>
+
+          <Text
+            style={styles.item}
+            >
+            {`Description: ${item.description}`}
+          </Text>
+
+          </View>
         </TouchableOpacity>
       );
     };
@@ -98,6 +114,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     padding: 16,
+  },
+  container_vertical: {
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 30,
   },
   buttonStyle: {
     alignItems: 'center',

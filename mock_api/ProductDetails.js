@@ -1,185 +1,114 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+//import React in our code
+import {useState, useEffect} from 'react';
+import { Image, TouchableOpacity} from 'react-native'
 
-const Page2 = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+//import all the components we are going to use
+import {
+    FlatList,
+    View,
+    Text,
+    SafeAreaView,
+    StyleSheet
+} from 'react-native';
+
+const flowerList = [
+  {
+      id: '1', 
+      categoryId: '1',
+      value: 'Hoa hồng đỏ', 
+      imageUrl: 'https://images.pexels.com/photos/931177/pexels-photo-931177.jpeg?_gl=1*s6rq7g*_ga*ODA1NTg2NjE1LjE3NTgyMDEwNjM.*_ga_8JE65Q40S6*czE3NTk2NjMyODIkbzMkZzEkdDE3NTk2NjM2NjgkajI3JGwwJGgw',
+      price: 120000,
+  },
+  {
+      id: '2', 
+      categoryId: '1',
+      value: 'Hoa hồng trắng', 
+      imageUrl: 'https://images.pexels.com/photos/10866516/pexels-photo-10866516.jpeg?_gl=1*1fmorvx*_ga*ODA1NTg2NjE1LjE3NTgyMDEwNjM.*_ga_8JE65Q40S6*czE3NTk2NjMyODIkbzMkZzEkdDE3NTk2NjYwNTMkajU5JGwwJGgw',
+      price: 130000,
+  },
+  {
+      id: '3', 
+      categoryId: '1',
+      value: 'Hoa hồng xanh', 
+      imageUrl: 'https://images.pexels.com/photos/7755139/pexels-photo-7755139.jpeg?_gl=1*nd62tg*_ga*ODA1NTg2NjE1LjE3NTgyMDEwNjM.*_ga_8JE65Q40S6*czE3NTk2NjMyODIkbzMkZzEkdDE3NTk2NjYxMTMkajU5JGwwJGgw',
+      price: 130000,
+  },
+  {
+      id: '4', 
+      categoryId: '2',
+      value: 'Combo hoa hồng', 
+      imageUrl: 'https://images.pexels.com/photos/20755030/pexels-photo-20755030.jpeg?_gl=1*1m8pys1*_ga*ODA1NTg2NjE1LjE3NTgyMDEwNjM.*_ga_8JE65Q40S6*czE3NTk2NjMyODIkbzMkZzEkdDE3NTk2NjYxNjEkajExJGwwJGgw',
+      price: 130000,
+  },
+  {
+      id: '5', 
+      categoryId: '3',
+      value: 'Combo vườn hoa tình yêu', 
+      imageUrl: 'https://images.pexels.com/photos/673857/pexels-photo-673857.jpeg?_gl=1*8hcfnn*_ga*ODA1NTg2NjE1LjE3NTgyMDEwNjM.*_ga_8JE65Q40S6*czE3NTk2NjMyODIkbzMkZzEkdDE3NTk2NjYyNDYkajI1JGwwJGgw',
+      price: 130000,
+  },
+]
+
+const ProductDetails = ({route}) => {
+  const [flower, setFlower] = useState({});
+
+  const {productId} = route.params;
+
+  useEffect(()=> {
+    const filteredItems = flowerList.filter(item => item.id === productId);
+    setFlower(filteredItems[0]);
+  },[productId]);
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity 
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.backButtonText}>‹</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <Image 
+            source={{uri: flower.imageUrl}}  
+            style={{width: 100, height: 100}} 
+        />
 
-      <Text style={styles.title}>Sign In</Text>
+        <View style={styles.item}>
+          <Text
+          style={styles.item}
+          >
+          {`Tên: ${flower.value}`}
+        </Text>
 
-      <View style={styles.formContainer}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>E-mail</Text>
-          <TextInput
-            style={styles.textInput}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+        <Text
+          style={styles.item}
+          >
+          {`Giá: ${flower.price}`}
+        </Text>
+
         </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Password</Text>
-          <TextInput
-            style={styles.textInput}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-        </View>
-
-        <TouchableOpacity style={styles.forgotPassword}>
-          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>Log in</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.orText}>OR</Text>
-
-        <TouchableOpacity style={styles.facebookButton}>
-          <Text style={styles.facebookButtonText}>Login With Facebook</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.googleButton}>
-          <Text style={styles.googleButtonText}>G</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.appleButton}>
-          <Text style={styles.appleButtonText}>🍎 Sign in with Apple</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={styles.phoneButton}
-          onPress={() => navigation.navigate('Page3')}
-        >
-          <Text style={styles.phoneButtonText}>Login with phone number</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#1a1a1a',
-    padding: 20,
-  },
-  backButton: {
-    marginTop: 40,
-    marginBottom: 20,
-  },
-  backButtonText: {
-    color: '#888',
-    fontSize: 24,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#6c5ce7',
-    marginBottom: 40,
-  },
-  formContainer: {
-    flex: 1,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    color: '#888',
-    marginBottom: 8,
-    fontSize: 14,
-  },
-  textInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
-    paddingVertical: 10,
-    color: '#fff',
-    fontSize: 16,
-  },
-  forgotPassword: {
-    alignSelf: 'flex-end',
-    marginBottom: 30,
-  },
-  forgotPasswordText: {
-    color: '#6c5ce7',
-    fontSize: 14,
-  },
-  loginButton: {
-    backgroundColor: '#6c5ce7',
-    paddingVertical: 15,
-    borderRadius: 25,
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  loginButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  orText: {
-    color: '#888',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  facebookButton: {
-    backgroundColor: '#4267B2',
-    paddingVertical: 15,
-    borderRadius: 25,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  facebookButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  googleButton: {
-    backgroundColor: '#fff',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
     justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginBottom: 15,
+    flex: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 30,
   },
-  googleButtonText: {
-    color: '#000',
+  container_vertical: {
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 30,
+  },
+  item: {
+    padding: 10,
     fontSize: 18,
-    fontWeight: 'bold',
-  },
-  appleButton: {
-    backgroundColor: '#fff',
-    paddingVertical: 15,
-    borderRadius: 25,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  appleButtonText: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  phoneButton: {
-    alignSelf: 'center',
-  },
-  phoneButtonText: {
-    color: '#6c5ce7',
-    fontSize: 14,
+    height: 44,
   },
 });
 
-export default Page2;
+export default ProductDetails;
