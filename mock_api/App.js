@@ -37,6 +37,15 @@ export default function App() {
             title: 'ProductEdit',
           }}
         />
+
+        <Stack.Screen
+          name="ProductDetails"
+          component={ProductDetails}
+          options={{
+            tabBarLabel: 'ProductDetails',
+            title: 'ProductDetails',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

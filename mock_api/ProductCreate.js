@@ -1,180 +1,128 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+//import React in our code
+import {useState, useEffect} from 'react';
+import { Image, TouchableOpacity} from 'react-native'
 
-const Page3 = ({ navigation }) => {
-  const [phoneNumber, setPhoneNumber] = useState('');
+//import all the components we are going to use
+import {
+    FlatList,
+    View,
+    Text,
+    SafeAreaView,
+    StyleSheet,
+    Button,
+    TextInput
+} from 'react-native';
+import axios from 'axios';
+
+const ProductCreate = ({route, navigation}) => {
+  const [product, setProduct] = useState({});
+
+  const [productName, setProductName] = useState(''); 
+  const [productAuthor, setProductAuthor] = useState('');
+  const [productPrice, setProductPrice] = useState(0);
+  const [productDesc, setProductDesc] = useState('');
+
+  const updateProductDetails = () => {
+    const updatedProduct = {
+      name: productName,
+      author: productAuthor,
+      price: productPrice,
+      desc: productDesc
+    };
+
+    axios
+      .post(`https://68e0797a93207c4b4794886f.mockapi.io/api/v1/products/products`, updatedProduct)
+      .then(function (response) {
+        alert('Thêm sản phẩm thành công');
+        navigation.navigate('ProductList');
+      })
+      .catch(function (error) {
+        alert(error.message);
+      });
+  }
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity 
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.backButtonText}>‹</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
 
-      <Text style={styles.title}>Sign In</Text>
+        <View style={{...styles.item, flex: 1}}>
 
-      <View style={styles.formContainer}>
-        <View style={styles.phoneInputContainer}>
-          <View style={styles.countryCodeContainer}>
-            <Text style={styles.flagText}>🇺🇸</Text>
-            <Text style={styles.countryCodeText}>+1</Text>
-          </View>
+          <Text style={styles.item}>{`Name:`}</Text>
           <TextInput
-            style={styles.phoneInput}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-            placeholder=""
-            placeholderTextColor="#666"
+            style={styles.input}
+            placeholder={'Nhập tên sản phẩm'}
+            onChangeText={setProductName}
+            required
+          />
+
+          <Text style={styles.item}>{`Author`}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder={'Nhập tên tác giả'}
+            onChangeText={setProductAuthor}
+            charset = 'utf-8'
+            required
+          />
+
+          <Text style={styles.item}>{`Price:`}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder={'Nhập giá sản phẩm'}
+            onChangeText={setProductPrice}
+            keyboardType="numeric"// only allow numeric input
+            required
+          />
+
+          <Text style={styles.item}>{`Description:`}</Text>
+          <TextInput
+            style={{...styles.input, height: 'auto', minHeight: 60}}
+            placeholder={'Nhập mô tả sản phẩm'}
+            onChangeText={setProductDesc}
+            multiline
+            charset = 'utf-8'
           />
         </View>
 
-        <TouchableOpacity style={styles.sendCodeButton}>
-          <Text style={styles.sendCodeButtonText}>Send code</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.orText}>OR</Text>
-
-        <TouchableOpacity style={styles.facebookButton}>
-          <Text style={styles.facebookButtonText}>Login With Facebook</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.googleButton}>
-          <Text style={styles.googleButtonText}>G</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.appleButton}>
-          <Text style={styles.appleButtonText}>🍎 Sign in with Apple</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={styles.emailButton}
-          onPress={() => navigation.navigate('Page2')}
-        >
-          <Text style={styles.emailButtonText}>Sign in with E-mail</Text>
-        </TouchableOpacity>
+        <Button
+          title="Thêm sản phẩm"
+          onPress={() => updateProductDetails()}
+        />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    //justifyContent: 'center',
     flex: 1,
-    backgroundColor: '#1a1a1a',
-    padding: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 30,
+    flexGap: 10,
   },
-  backButton: {
-    marginTop: 40,
-    marginBottom: 20,
-  },
-  backButtonText: {
-    color: '#888',
-    fontSize: 24,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#6c5ce7',
-    marginBottom: 40,
-  },
-  formContainer: {
-    flex: 1,
-  },
-  phoneInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
-    marginBottom: 40,
-    paddingVertical: 10,
-  },
-  countryCodeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingRight: 15,
-    borderRightWidth: 1,
-    borderRightColor: '#333',
-    marginRight: 15,
-  },
-  flagText: {
-    fontSize: 20,
-    marginRight: 5,
-  },
-  countryCodeText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  phoneInput: {
-    flex: 1,
-    color: '#fff',
-    fontSize: 16,
-  },
-  sendCodeButton: {
-    backgroundColor: '#6c5ce7',
-    paddingVertical: 15,
-    borderRadius: 25,
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  sendCodeButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  orText: {
-    color: '#888',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  facebookButton: {
-    backgroundColor: '#4267B2',
-    paddingVertical: 15,
-    borderRadius: 25,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  facebookButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  googleButton: {
-    backgroundColor: '#fff',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+  container_vertical: {
     justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginBottom: 15,
+    flex: 1,
+    flexDirection: 'column',
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 30,
   },
-  googleButtonText: {
-    color: '#000',
+  item: {
+    padding: 10,
     fontSize: 18,
-    fontWeight: 'bold',
+    height: 44,
   },
-  appleButton: {
+  input:{
     backgroundColor: '#fff',
-    paddingVertical: 15,
-    borderRadius: 25,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  appleButtonText: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  emailButton: {
-    alignSelf: 'center',
-  },
-  emailButtonText: {
-    color: '#6c5ce7',
-    fontSize: 14,
-  },
+    padding: 10,
+    marginVertical: 10,
+    borderRadius: 5,
+    fontSize: 18,
+  }
 });
 
-export default Page3;
+export default ProductCreate;
