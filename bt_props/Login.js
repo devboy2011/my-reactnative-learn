@@ -19,16 +19,11 @@ const Login = ({navigation}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
   const dispatch = useDispatch();
 
   // Lấy dữ liệu người dùng từ Redux store
   const username = useSelector(selectUserName);
-
-  useEffect(() => {
-    if (username) {
-      navigation.navigate('MainFeature');
-    }
-  }, [username]);
 
   const handleLogin = () => {
 
@@ -45,9 +40,8 @@ const Login = ({navigation}) => {
     axios
       .get(`https://68e0797a93207c4b4794886f.mockapi.io/api/v1/products/user/1000`)
       .then(function (response) {
-        dispatch(login({ fullname: 'John', address: "Vietnam" }));
-        alert('Đăng nhập thành công');
-        navigation.navigate('MainFeature');
+        const userData = { fullname: 'John', address: "Vietnam" };
+        navigation.navigate('Cart', { fullname: userData.fullname, address: userData.address });
       })
       .catch(function (error) {
         alert("Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.");

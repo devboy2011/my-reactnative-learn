@@ -1,8 +1,6 @@
 //import React in our code
 import {useState, useEffect} from 'react';
 import { Image, TouchableOpacity} from 'react-native'
-import { useSelector, useDispatch } from 'react-redux';
-import { login, logout, selectUserName, selectUserAddress} from './redux/userSlice';
 
 //import all the components we are going to use
 import {
@@ -15,36 +13,16 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-const Profile = ({route, navigation}) => {
+const Cart = ({route, navigation}) => {
 
-  const { fullname, address } = route.params;
+  const {fullname, address } = route.params;
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        <View style={{...styles.item, flex: 1}}>
-          <Text
-            style={styles.item}
-            >
-            {`Name: ${fullname}`}
-          </Text>
-
-          <Text
-            style={styles.item}
-            >
-            {`Address: ${address}`}
-          </Text>
-        </View>
-
         <Button
-          title="Go Back"
-          onPress={() => navigation.goBack()}
-        />
-        <Button
-          title="Logout"
-          onPress={() => {
-            navigation.navigate('Login');
-          }}
+          title="Next"
+          onPress={() => navigation.navigate("Profile", { fullname: fullname, address: address })}
         />
       </View>
     </SafeAreaView>
@@ -76,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default Cart;

@@ -5,6 +5,8 @@ import UserStack from './UserStack';
 import ProductCreate from './ProductCreate';
 import ProductDetails from './ProductDetails';
 import ProductEdit from './ProductEdit';
+import Cart from './Cart';
+import Profile from './Profile';
 
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
@@ -56,6 +58,22 @@ export default function App() {
               title: 'Edit Product',
             }}
           />
+          <Stack.Screen  
+            name="Cart"
+            component={Cart}
+            options={{
+              tabBarLabel: 'Cart',
+              title: 'Cart',
+            }}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={{
+              tabBarLabel: 'Profile',
+              title: 'Profile',
+            }}
+          />  
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
